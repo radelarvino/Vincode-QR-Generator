@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vincode Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= BACKGROUND GRID TEXTURE ================= -->
+<div class="bg-grid" aria-hidden="true"></div>
+
+<!-- ================= TOP BAR ================= -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="brand" id="brandHome" type="button" aria-label="Kembali ke beranda">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22">
+          <rect x="1" y="1" width="8" height="8" fill="currentColor"/>
+          <rect x="3" y="3" width="4" height="4" fill="var(--bg)"/>
+          <rect x="15" y="1" width="8" height="8" fill="currentColor"/>
+          <rect x="17" y="3" width="4" height="4" fill="var(--bg)"/>
+          <rect x="1" y="15" width="8" height="8" fill="currentColor"/>
+          <rect x="3" y="17" width="4" height="4" fill="var(--bg)"/>
+          <rect x="13" y="13" width="3" height="3" fill="currentColor"/>
+          <rect x="18" y="13" width="3" height="3" fill="currentColor"/>
+          <rect x="13" y="18" width="3" height="3" fill="currentColor"/>
+          <rect x="18" y="18" width="2" height="2" fill="currentColor"/>
+          <rect x="20" y="16" width="3" height="2" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="brand-name">MODUL</span>
+    </button>
+    <nav class="topnav">
+      <button class="nav-btn is-active" data-view="generator">Buat QR</button>
+      <button class="nav-btn" data-view="history">Riwayat<span class="count-pill" id="historyCount">0</span></button>
+      <button class="nav-btn" data-view="scanner">Pindai QR</button>
+    </nav>
+    <div class="topbar-right">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Ganti mode gelap/terang" title="Ganti tampilan">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8L6 18M18 6l1.8-1.8"/></g></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17"><path d="M20 14.5A8.5 8.5 0 1110.2 4.2a7 7 0 009.8 10.3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="app">
+
+  <!-- ================= VIEW: GENERATOR ================= -->
+  <section class="view is-active" id="view-generator">
+    <div class="hero-strip">
+      <p class="hero-eyebrow">Welcome to Vincode Generator</p>
+      <h1 class="hero-title">Setiap kotak kecil<br>bisa menyimpan sebuah cerita.</h1>
+      <p class="hero-sub">Generate QR codes in seconds</p>
+    </div>
+
+    <div class="workbench">
+
+      <!-- LEFT: CONFIG PANEL -->
+      <div class="panel panel-config">
+
+        <div class="type-selector" role="tablist" aria-label="Tipe kode QR">
+          <button class="type-chip is-active" data-type="url">
+            <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.07 0l2.83-2.83a5 5 0 00-7.07-7.07l-1.5 1.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M14 11a5 5 0 00-7.07 0L4.1 13.83a5 5 0 007.07 7.07l1.49-1.49" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <span>Tautan</span>
+          </button>
+          <button class="type-chip" data-type="text">
+            <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <span>Teks</span>
+          </button>
+          <button class="type-chip" data-type="wifi">
+            <svg viewBox="0 0 24 24"><path d="M2 8.5a16 16 0 0120 0M5 12a11 11 0 0114 0M8.5 15.5a6 6 0 017 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="19" r="1.4" fill="currentColor"/></svg>
+            <span>WiFi</span>
+          </button>
+          <button class="type-chip" data-type="vcard">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c1.2-4 4-6 7-6s5.8 2 7 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <span>Kontak</span>
+          </button>
+          <button class="type-chip" data-type="email">
+            <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 6.5l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Email</span>
+          </button>
+          <button class="type-chip" data-type="phone">
+            <svg viewBox="0 0 24 24"><path d="M6 3h3l1.5 4.5L8 9.5a12 12 0 006.5 6.5l2-2.5L21 15v3a2 2 0 01-2.2 2A18 18 0 014 6.2 2 2 0 016 3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            <span>Telepon</span>
+          </button>
+        </div>
+
+        <!-- Dynamic fields per type -->
+        <div class="field-stack" id="fieldStack">
+          <!-- filled by JS -->
+        </div>
+
+        <div class="divider"><span>Pilih Desain</span></div>
+
+        <div class="template-gallery" id="templateGallery" role="tablist" aria-label="Template desain">
+          <!-- filled by JS -->
+        </div>
+
+        <div class="divider"><span>LANGKAH 3 — ATUR SENDIRI (OPSIONAL)</span></div>
+
+        <div class="style-grid">
+          <div class="field">
+            <label for="fgColor">Warna modul</label>
+            <div class="color-input">
+              <input type="color" id="fgColor" value="#0f1216">
+              <input type="text" id="fgColorHex" value="#0F1216" maxlength="7" class="hex-field">
+            </div>
+          </div>
+          <div class="field">
+            <label for="bgColor">Warna latar</label>
+            <div class="color-input">
+              <input type="color" id="bgColor" value="#ffffff">
+              <input type="text" id="bgColorHex" value="#FFFFFF" maxlength="7" class="hex-field">
+            </div>
+          </div>
+          <div class="field">
+            <label for="errLevel">Ketahanan kalau QR rusak/kotor</label>
+            <select id="errLevel">
+              <option value="L">Rendah — L (7%)</option>
+              <option value="M" selected>Sedang — M (15%)</option>
+              <option value="Q">Tinggi — Q (25%)</option>
+              <option value="H">Maksimum — H (30%)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="dotStyle">Bentuk modul</label>
+            <select id="dotStyle">
+              <option value="square" selected>Kotak</option>
+              <option value="rounded">Membulat</option>
+              <option value="dots">Bulat</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field logo-field">
+          <label for="logoUpload">Logo di tengah (opsional)</label>
+          <div class="logo-row">
+            <input type="file" id="logoUpload" accept="image/*" hidden>
+            <button class="btn btn-ghost btn-small" id="logoUploadBtn" type="button">Pilih gambar</button>
+            <span class="logo-filename" id="logoFilename">Tidak ada berkas dipilih</span>
+            <button class="btn btn-ghost btn-small" id="logoClearBtn" type="button" hidden>Hapus</button>
+          </div>
+        </div>
+
+        <div class="divider"><span>LANGKAH 4 — BERI NAMA (OPSIONAL)</span></div>
+        <div class="field">
+          <label for="qrLabel">Nama untuk riwayat (opsional)</label>
+          <input type="text" id="qrLabel" placeholder="contoh: Menu Kafe — Meja 4" maxlength="80">
+        </div>
+
+      </div>
+
+      <!-- RIGHT: PREVIEW PANEL -->
+      <div class="panel panel-preview">
+        <div class="preview-stage">
+          <div class="preview-frame" id="previewFrame">
+            <canvas id="qrCanvas" width="480" height="480"></canvas>
+            <div class="preview-empty" id="previewEmpty">
+              <svg viewBox="0 0 24 24" width="40" height="40"><rect x="2" y="2" width="8" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="14" y="2" width="8" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="2" y="14" width="8" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="14" y="14" width="8" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="2 2"/></svg>
+              <p>Isi datanya di sebelah kiri, kode QR-nya langsung muncul di sini</p>
+            </div>
+          </div>
+          <p class="preview-meta" id="previewMeta">—</p>
+        </div>
+
+        <div class="export-row">
+          <div class="size-control">
+            <label for="exportSize">Ukuran unduhan</label>
+            <select id="exportSize">
+              <option value="256">256 × 256 px</option>
+              <option value="512" selected>512 × 512 px</option>
+              <option value="1024">1024 × 1024 px</option>
+              <option value="2048">2048 × 2048 px</option>
+            </select>
+          </div>
+          <div class="export-buttons">
+            <button class="btn btn-primary" id="downloadPngBtn">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 3v13m0 0l-4.5-4.5M12 16l4.5-4.5M4 20h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              PNG
+            </button>
+            <button class="btn btn-ghost" id="downloadSvgBtn">SVG</button>
+            <button class="btn btn-ghost" id="copyImgBtn">Salin</button>
+          </div>
+        </div>
+
+        <button class="btn btn-save" id="saveHistoryBtn" disabled>
+          <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 4h11l3 3v13H5V4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 4v5h7V4M8 14h8v6H8v-6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          Simpan ke Riwayat
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= VIEW: HISTORY ================= -->
+  <section class="view" id="view-history">
+    <div class="hero-strip">
+      <p class="hero-eyebrow">RIWAYAT KAMU</p>
+      <h1 class="hero-title">Semua QR yang pernah kamu buat.</h1>
+      <p class="hero-sub">Tersimpan aman di perangkat ini — nggak hilang walau kamu tutup tab.</p>
+    </div>
+
+    <div class="history-toolbar">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" width="16" height="16"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input type="text" id="historySearch" placeholder="Cari nama atau isi QR…">
+      </div>
+      <select id="historyFilterType">
+        <option value="all">Semua tipe</option>
+        <option value="url">Tautan</option>
+        <option value="text">Teks</option>
+        <option value="wifi">WiFi</option>
+        <option value="vcard">Kontak</option>
+        <option value="email">Email</option>
+        <option value="phone">Telepon</option>
+      </select>
+      <button class="btn btn-ghost btn-small" id="selectModeBtn">Pilih</button>
+      <button class="btn btn-ghost btn-small" id="selectAllBtn" hidden>Pilih semua</button>
+      <button class="btn btn-ghost btn-small" id="cancelSelectBtn" hidden>Batal pilih</button>
+      <button class="btn btn-ghost btn-small btn-danger" id="clearHistoryBtn">Hapus semua</button>
+    </div>
+
+    <!-- Muncul hanya setelah minimal satu kartu dicentang -->
+    <div class="selection-bar" id="selectionBar" hidden>
+      <label class="selection-all">
+        <input type="checkbox" id="selectAllCheckbox">
+        <span id="selectionCountText">0 dipilih</span>
+      </label>
+      <div class="selection-actions">
+        <button class="btn btn-danger-solid btn-small" id="deleteSelectedBtn">Hapus yang dipilih</button>
+      </div>
+    </div>
+
+    <div class="history-grid" id="historyGrid">
+      <!-- filled by JS -->
+    </div>
+
+    <div class="history-empty" id="historyEmpty" hidden>
+      <svg viewBox="0 0 24 24" width="36" height="36"><rect x="3" y="3" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="14" y="3" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="3" y="14" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+      <p>Belum ada QR yang kamu simpan.</p>
+      <button class="btn btn-primary btn-small" data-goto="generator">Yuk, buat yang pertama</button>
+    </div>
+  </section>
+
+  <!-- ================= VIEW: SCANNER ================= -->
+  <section class="view" id="view-scanner">
+    <div class="hero-strip">
+      <p class="hero-eyebrow">PINDAI QR</p>
+      <h1 class="hero-title">Punya gambar QR? Unggah, kita bacain isinya.</h1>
+      <p class="hero-sub">Cocok buat cek isi QR sebelum kamu scan beneran pakai HP.</p>
+    </div>
+
+    <div class="scanner-panel">
+      <label class="dropzone" id="scanDropzone">
+        <input type="file" id="scanFileInput" accept="image/*" hidden>
+        <svg viewBox="0 0 24 24" width="32" height="32"><path d="M12 4v12m0 0l-4-4m4 4l4-4M5 20h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p><strong>Klik untuk pilih gambar</strong> atau tarik & taruh di sini</p>
+        <span class="dropzone-hint">PNG, JPG — kode QR harus terlihat jelas</span>
+      </label>
+      <div class="scan-result" id="scanResult" hidden>
+        <p class="scan-result-label">Hasil pemindaian</p>
+        <div class="scan-result-box" id="scanResultText"></div>
+        <div class="scan-result-actions">
+          <button class="btn btn-ghost btn-small" id="scanCopyBtn">Salin teks</button>
+          <a class="btn btn-ghost btn-small" id="scanOpenBtn" target="_blank" rel="noopener" hidden>Buka tautan</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= DETAIL MODAL ================= -->
+<div class="modal-overlay" id="detailModal" hidden>
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="Tutup">✕</button>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ================= TOAST ================= -->
+<div class="toast" id="toast"></div>
+
+<script src="qrcode-vendor.js"></script>
+<script src="jsqr-vendor.js"></script>
+<script>
+  /* Pemuat pustaka dengan cadangan (fallback) — cuma untuk sql.js (SQLite
+     WASM), yang tetap dimuat dari CDN karena filenya besar (ada file
+     .wasm terpisah). Pustaka QR generator (qrcode-vendor.js) dan pemindai
+     QR (jsqr-vendor.js) sudah dimuat secara lokal di atas, jadi fitur
+     BUAT dan PINDAI QR TIDAK bergantung pada koneksi CDN sama sekali. */
+  function loadScriptWithFallback(urls){
+    return new Promise((resolve, reject) => {
+      let i = 0;
+      function tryNext(){
+        if (i >= urls.length) return reject(new Error('Semua sumber gagal: ' + urls.join(', ')));
+        const s = document.createElement('script');
+        s.src = urls[i];
+        s.onload = () => resolve(urls[i]);
+        s.onerror = () => { i++; tryNext(); };
+        document.head.appendChild(s);
+      }
+      tryNext();
+    });
+  }
+
+  async function loadAllLibraries(){
+    const results = {
+      qrcode: typeof qrcode === 'function',
+      jsQR: typeof jsQR === 'function',
+      sqljs: false
+    };
+
+    try {
+      await loadScriptWithFallback([
+        'https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js',
+        'https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-wasm.js'
+      ]);
+      results.sqljs = typeof initSqlJs === 'function';
+    } catch(e){ console.error('Gagal memuat pustaka SQLite:', e); }
+
+    window.__LIB_STATUS__ = results;
+
+    // muat modul aplikasi sendiri setelah semua percobaan pustaka selesai
+    ['qr-engine.js', 'db.js', 'app.js'].forEach(src => {
+      const s = document.createElement('script');
+      s.src = src;
+      document.body.appendChild(s);
+    });
+  }
+
+  loadAllLibraries();
+</script>
+</body>
+</html>
