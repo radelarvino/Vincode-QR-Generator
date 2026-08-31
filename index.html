@@ -326,10 +326,16 @@
 
     window.__LIB_STATUS__ = results;
 
-    // muat modul aplikasi sendiri setelah semua percobaan pustaka selesai
+    // muat modul aplikasi sendiri setelah semua percobaan pustaka selesai —
+    // async=false memaksa browser mengeksekusi ketiganya SESUAI URUTAN
+    // (qr-engine.js -> db.js -> app.js), bukan begitu masing-masing selesai
+    // di-download. Tanpa ini, saat load pertama kali (belum ada cache),
+    // app.js bisa saja jalan duluan sebelum qr-engine.js selesai, sehingga
+    // QRTemplates belum terdefinisi dan galeri desain gagal tampil.
     ['qr-engine.js', 'db.js', 'app.js'].forEach(src => {
       const s = document.createElement('script');
       s.src = src;
+      s.async = false;
       document.body.appendChild(s);
     });
   }
